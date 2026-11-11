@@ -17,7 +17,7 @@ const sections: Record<string, { label: string; id: string; icon: LucideIcon }[]
   '/anleitung': [{ label: 'Materialliste', id: 'materialliste', icon: FileText }, { label: 'Schritte', id: 'schritte', icon: Hammer }],
   '/klappentexte': [{ label: 'Stationstexte', id: 'stationstexte', icon: ScrollText }],
   '/wissenscheck': [{ label: 'Fragen', id: 'fragen', icon: HelpCircle }],
-  '/wissenstrainer': [{ label: 'Trainingsmodus', id: 'modi', icon: Trophy }, { label: 'Fortschritt', id: 'fortschritt', icon: Clock3 }],
+  '/wissenstrainer': [{ label: 'Trainingsmodus', id: 'modi', icon: Trophy }],
   '/quellen': [{ label: 'Quellen', id: 'quellenliste', icon: BookMarked }, { label: 'Credits', id: 'credits', icon: FileText }],
   '/impressum': [{ label: 'Impressum', id: 'impressum', icon: FileText }],
 }
