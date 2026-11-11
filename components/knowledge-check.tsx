@@ -2,9 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { ArrowRight, Check, RotateCcw, Trophy, X } from 'lucide-react'
-import { quizQuestions } from '@/lib/trainer-data'
-
-const knowledgeCheckQuestions = quizQuestions.slice(0, 12)
+import { knowledgeCheckQuestionIds, knowledgeCheckQuestions } from '@/lib/trainer-data'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 
@@ -36,7 +34,7 @@ export function KnowledgeCheck() {
     else {
       try {
         const old = JSON.parse(localStorage.getItem('verdun-wrong-pool') ?? '[]') as number[]
-        localStorage.setItem('verdun-wrong-pool', JSON.stringify(Array.from(new Set([...old, index]))))
+        localStorage.setItem('verdun-wrong-pool', JSON.stringify(Array.from(new Set([...old, knowledgeCheckQuestionIds[index]]))))
       } catch { /* The quiz still works without saved wrong answers. */ }
     }
   }, [choice, current, index])

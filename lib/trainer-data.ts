@@ -20,7 +20,14 @@ export const quizQuestions: QuizQuestion[] = [
   { question: 'Was bedeutet „village détruit“?', options: ['Zerstörtes Dorf', 'Versorgungsstraße', 'Artilleriefeuer', 'Waffenstillstand'], answer: 0, explanation: 'Mehrere zerstörte Dörfer wurden nach dem Krieg als Gedenkorte erhalten.', topic: 'Begriffe' },
   { question: 'Welche französische Führungspersönlichkeit wurde mit der Verteidigung Verduns bekannt?', options: ['Philippe Pétain', 'Erich Ludendorff', 'Alfred von Schlieffen', 'Paul von Hindenburg'], answer: 0, explanation: 'Pétain organisierte in der frühen Phase die Verteidigung und Versorgung über die Voie Sacrée.', topic: 'Forts' },
   { question: 'Wie endete die Schlacht im Dezember 1916?', options: ['Ohne entscheidenden Durchbruch; die Front stabilisierte sich', 'Mit der Einnahme von Paris', 'Mit einem Waffenstillstand', 'Mit dem Ende des Weltkriegs'], answer: 0, explanation: 'Die Front stabilisierte sich nach den französischen Rückeroberungen; ein klarer Sieg blieb aus.', topic: 'Zeitleiste' },
+  { question: 'Wie hieß die wichtigste französische Versorgungsstraße nach Verdun?', options: ['Voie Sacrée', 'Chemin des Dames', 'Kaiserstraße', 'Route de Paris'], answer: 0, explanation: 'Die Voie Sacrée verband Bar-le-Duc mit Verdun und ermöglichte einen wichtigen Teil des französischen Nachschubs.', topic: 'Alltagsrealität' },
+  { question: 'Warum musste die Besatzung von Fort Vaux im Juni 1916 aufgeben?', options: ['Wassermangel und Erschöpfung', 'Ein Waffenstillstand war beschlossen', 'Das Fort wurde evakuiert, bevor es angegriffen wurde', 'Die Maas trat über die Ufer'], answer: 0, explanation: 'Die Verteidiger hielten lange aus, doch Wasserknappheit und die schwierige Lage machten die Fortsetzung unmöglich.', topic: 'Forts' },
+  { question: 'Was kennzeichnete die Kämpfe um Fleury-devant-Douaumont?', options: ['Das Dorf wechselte mehrfach den Besitzer und wurde zerstört', 'Es blieb während der Schlacht unberührt', 'Es war der Hauptsitz der französischen Regierung', 'Es wurde durch einen Waffenstillstand geräumt'], answer: 0, explanation: 'Fleury wechselte im Juni und Juli 1916 mehrfach den Besitzer und wurde weitgehend zerstört.', topic: 'Zeitleiste' },
+  { question: 'Was ist das Ossuaire de Douaumont?', options: ['Ein Beinhaus und Gedenkort für Gefallene', 'Ein französischer Nachschubweg', 'Ein erhaltenes Artilleriewerk', 'Ein Versorgungsdepot'], answer: 0, explanation: 'Das Beinhaus erinnert an die Toten der Schlacht und bewahrt Überreste nicht identifizierter Gefallener.', topic: 'Begriffe' },
 ]
+
+export const knowledgeCheckQuestionIds = [0, 1, 2, 3, 4, 5, 6, 7, 20, 21, 22, 23] as const
+export const knowledgeCheckQuestions = knowledgeCheckQuestionIds.map((index) => quizQuestions[index])
 
 export const glossary = [
   ['Materialschlacht', 'Ein Kampf, in dem Waffen, Munition, industrielle Produktion und Nachschub eine zentrale Rolle spielen.'],
