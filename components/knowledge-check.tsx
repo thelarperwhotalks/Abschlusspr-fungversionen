@@ -4,13 +4,17 @@ import { useCallback, useEffect, useState } from 'react'
 import { ArrowRight, Check, RotateCcw, Trophy, X } from 'lucide-react'
 import { quizQuestions } from '@/lib/trainer-data'
 
+const knowledgeCheckQuestions = quizQuestions.slice(0, 12)
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
+
 export function KnowledgeCheck() {
   const [index, setIndex] = useState(0)
   const [choice, setChoice] = useState<number | null>(null)
   const [score, setScore] = useState(0)
   const [finished, setFinished] = useState(false)
   const [bestScore, setBestScore] = useState(0)
-  const current = quizQuestions[index]
+  const current = knowledgeCheckQuestions[index]
 
   useEffect(() => {
     try { setBestScore(Number(localStorage.getItem('verdun-quiz-best') ?? 0)) } catch { setBestScore(0) }
@@ -39,7 +43,7 @@ export function KnowledgeCheck() {
 
   const advance = useCallback(() => {
     if (choice === null) return
-    if (index === quizQuestions.length - 1) setFinished(true)
+    if (index === knowledgeCheckQuestions.length - 1) setFinished(true)
     else { setIndex((value) => value + 1); setChoice(null) }
   }, [choice, index])
 
@@ -59,13 +63,13 @@ export function KnowledgeCheck() {
     document.querySelector('#fragen')?.scrollIntoView({ block: 'start' })
   }
 
-  if (finished) return <div className="result-card" role="status"><Trophy size={34}/><p className="section-kicker">WISSENS-CHECK ABGESCHLOSSEN</p><h2>{score} von {quizQuestions.length} richtig</h2><p>Dein bester Durchgang: {bestScore} von {quizQuestions.length}. Du kannst erneut starten oder im Wissenstrainer gezielt üben.</p><button className="button button-fill" onClick={restart}><RotateCcw size={16}/>Erneut versuchen</button></div>
+  if (finished) return <Card className="result-card" role="status"><CardHeader className="result-card-header"><Trophy size={34}/><p className="section-kicker">WISSENS-CHECK ABGESCHLOSSEN</p><h2>{score} von {knowledgeCheckQuestions.length} richtig</h2></CardHeader><CardContent className="result-card-content"><p>Dein bester Durchgang: {bestScore} von {knowledgeCheckQuestions.length}. Du kannst erneut starten oder im Wissenstrainer gezielt üben.</p><Button className="button button-fill" onClick={restart} size="lg"><RotateCcw data-icon="inline-start"/>Erneut versuchen</Button></CardContent></Card>
 
-  return <div className="quiz-card" aria-labelledby="quiz-question">
-    <div className="quiz-progress"><span aria-current="step">Frage {index + 1} von {quizQuestions.length}</span><span>{score} richtig</span></div>
-    <div className="progress-bar" role="progressbar" aria-label="Quizfortschritt" aria-valuemin={0} aria-valuemax={quizQuestions.length} aria-valuenow={index + 1}><i style={{width:`${((index + 1) / quizQuestions.length) * 100}%`}}/></div>
-    <p className="section-kicker">{current.topic.toLocaleUpperCase('de')}</p><h2 id="quiz-question" aria-live="polite">{current.question}</h2>
-    <div className="answer-list" role="group" aria-label="Antwortmöglichkeiten">{current.options.map((option, optionIndex) => <button key={option} className={choice === null ? 'answer-option' : optionIndex === current.answer ? 'answer-option is-correct' : choice === optionIndex ? 'answer-option is-wrong' : 'answer-option'} disabled={choice !== null} aria-pressed={choice === optionIndex} onClick={() => select(optionIndex)}><span className="answer-key">{optionIndex + 1}</span>{option}{choice !== null && optionIndex === current.answer && <Check size={18}/ >}{choice === optionIndex && choice !== current.answer && <X size={18}/>}</button>)}</div>
-    {choice !== null && <div className={choice === current.answer ? 'feedback-box correct' : 'feedback-box wrong'} role="status"><b>{choice === current.answer ? 'Richtig.' : 'Noch nicht ganz.'}</b><p>{current.explanation}</p><button className="button button-fill" onClick={advance}>{index === quizQuestions.length - 1 ? 'Ergebnis ansehen' : 'Nächste Frage'}<ArrowRight size={16}/></button></div>}
-  </div>
+  return <Card className="quiz-card" aria-labelledby="quiz-question">
+    <CardHeader className="quiz-card-header"><div className="quiz-progress"><span aria-current="step">Frage {index + 1} von {knowledgeCheckQuestions.length}</span><span>{score} richtig</span></div>
+    <div className="progress-bar" role="progressbar" aria-label="Quizfortschritt" aria-valuemin={0} aria-valuemax={knowledgeCheckQuestions.length} aria-valuenow={index + 1}><i style={{width:`${((index + 1) / knowledgeCheckQuestions.length) * 100}%`}}/></div>
+    <p className="section-kicker">{current.topic.toLocaleUpperCase('de')}</p><h2 id="quiz-question" aria-live="polite">{current.question}</h2></CardHeader>
+    <CardContent className="quiz-card-content"><div className="answer-list" role="group" aria-label="Antwortmöglichkeiten">{current.options.map((option, optionIndex) => <button key={option} className={choice === null ? 'answer-option' : optionIndex === current.answer ? 'answer-option is-correct' : choice === optionIndex ? 'answer-option is-wrong' : 'answer-option'} disabled={choice !== null} aria-pressed={choice === optionIndex} onClick={() => select(optionIndex)}><span className="answer-key">{optionIndex + 1}</span>{option}{choice !== null && optionIndex === current.answer && <Check size={18}/ >}{choice === optionIndex && choice !== current.answer && <X size={18}/>}</button>)}</div>
+    {choice !== null && <div className={choice === current.answer ? 'feedback-box correct' : 'feedback-box wrong'} role="status"><b>{choice === current.answer ? 'Richtig.' : 'Noch nicht ganz.'}</b><p>{current.explanation}</p><Button className="button button-fill" onClick={advance} size="lg">{index === knowledgeCheckQuestions.length - 1 ? 'Ergebnis ansehen' : 'Nächste Frage'}<ArrowRight data-icon="inline-end"/></Button></div>}</CardContent>
+  </Card>
 }
