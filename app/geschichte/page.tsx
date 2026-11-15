@@ -30,16 +30,16 @@ export default function HistoryPage() {
       <header className="page-hero">
         <p className="section-kicker">HISTORISCHER ÜBERBLICK</p>
         <h1>Geschichte der Schlacht</h1>
-        <p className="lead">Verdun wurde 1916 zum Symbol für den industrialisierten Stellungskrieg. Eine Einordnung von Zielen, Verlauf und menschlichen Folgen.</p>
+        <p className="lead">Die Schlacht um Verdun war eine der längsten und schlimmsten Schlachten des Ersten Weltkriegs. Hier erfährst du, warum sie begann, wie sie verlief und was sie für die Menschen bedeutete.</p>
         <Link className="back-link" href="/">← Zurück zur Übersicht</Link>
       </header>
 
       <section className="content-section" id="fakten">
         <p className="section-kicker">HINTERGRUND</p>
-        <h2>Warum Verdun?</h2>
+        <h2>Warum wurde Verdun angegriffen?</h2>
         <div className="article-grid">
-          <article className="info-card"><span className="article-number">01</span><h3>Ein Ort von hoher Bedeutung</h3><p>Verdun lag an der Maas und war von einem Ring aus Forts umgeben. Die Stadt besaß für Frankreich militärische und symbolische Bedeutung. Ihre Lage machte sie zu einem wichtigen Abschnitt der Westfront.</p></article>
-          <article className="info-card"><span className="article-number">02</span><h3>Der deutsche Angriffsplan</h3><p>Die deutsche Führung unter Erich von Falkenhayn begann am 21. Februar 1916 die Operation „Gericht“. Das Ziel war, die französische Armee an einem strategisch wichtigen Ort in eine verlustreiche Abnutzungsschlacht zu zwingen.</p></article>
+          <article className="info-card"><span className="article-number">01</span><h3>Ein Ort von hoher Bedeutung</h3><p>Verdun liegt an der Maas in Frankreich. Viele Festungen schützten die Stadt. Für Frankreich war Verdun wichtig: Die Stadt sollte unbedingt verteidigt werden.</p></article>
+          <article className="info-card"><span className="article-number">02</span><h3>Der deutsche Angriffsplan</h3><p>Am 21. Februar 1916 griff die deutsche Armee Verdun an. Der deutsche General Erich von Falkenhayn wollte Frankreich zu langen Kämpfen zwingen. Er hoffte, dass dabei so viele französische Soldaten sterben oder verletzt werden würden, dass Frankreich nicht mehr weiterkämpfen könnte.</p></article>
           <article className="info-card"><span className="article-number">03</span><h3>Kein schneller Durchbruch</h3><p>Die Verteidigung, der Nachschub über die Voie Sacrée und die hohen Kosten jedes Geländegewinns verhinderten einen raschen Abschluss. Im Dezember stabilisierte sich die Front nach französischen Gegenangriffen.</p></article>
           <article className="info-card"><span className="article-number">04</span><h3>Folgen</h3><p>Die Schlacht hinterließ tiefe Spuren in der Landschaft und im kollektiven Gedächtnis. Verdun steht bis heute für die Folgen industrieller Kriegsführung und für das Gedenken an die Opfer.</p></article>
         </div>
@@ -106,7 +106,7 @@ export default function HistoryPage() {
 
       <section className="content-section" id="faq">
         <p className="section-kicker">HÄUFIGE FRAGEN</p>
-        <h2>FAQ</h2>
+        <h2>Häufige Fragen</h2>
         <Accordion className="faq-accordion" multiple>
           {faq.map(([question, answer]) => <AccordionItem value={question} key={question}><AccordionTrigger className="faq-trigger">{question}</AccordionTrigger><AccordionContent>{answer}</AccordionContent></AccordionItem>)}
         </Accordion>
