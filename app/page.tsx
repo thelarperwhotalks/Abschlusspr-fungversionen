@@ -1,4 +1,4 @@
 import type { Metadata } from 'next'
 import { HomeContent } from '@/components/home-content'
-export const metadata: Metadata={title:'Die Schlacht um Verdun 1916 · Entdeckerkarte & Geschichte',description:'Ein sachliches Lernprojekt zur Schlacht um Verdun 1916 mit Geschichte, interaktivem Modell und Bauanleitung.',authors:[{name:'Niklas Schaub'}],openGraph:{title:'Verdun 1916 – Entdeckerkarte & Geschichte',description:'Geschichte entdecken und eine Lernkarte aus Karton und LED bauen.'}}
+export const metadata: Metadata={title:'Schlacht um Verdun 1916 · Geschichte, Verlauf & Folgen',description:'Hintergründe, Zeitleiste, Verluste, chemische Waffen und zentrale Begriffe zur Schlacht um Verdun 1916.',authors:[{name:'Niklas Schaub'},{name:'Nils Schwemm'},{name:'Samuel Verstraeten'}],openGraph:{title:'Schlacht um Verdun 1916',description:'Ein fundierter Überblick über Verlauf, Verluste und Erinnerung an die Schlacht um Verdun.'}}
 export default function HomePage(){return <HomeContent/>}
