@@ -26,9 +26,6 @@ export const quizQuestions: QuizQuestion[] = [
   { question: 'Was ist das Ossuaire de Douaumont?', options: ['Ein Beinhaus und Gedenkort für Gefallene', 'Ein französischer Nachschubweg', 'Ein erhaltenes Artilleriewerk', 'Ein Versorgungsdepot'], answer: 0, explanation: 'Das Beinhaus erinnert an die Toten der Schlacht und bewahrt Überreste nicht identifizierter Gefallener.', topic: 'Begriffe' },
 ]
 
-export const knowledgeCheckQuestionIds = [0, 1, 2, 3, 4, 5, 6, 7, 20, 21, 22, 23] as const
-export const knowledgeCheckQuestions = knowledgeCheckQuestionIds.map((index) => quizQuestions[index])
-
 export const glossary = [
   ['Materialschlacht', 'Ein Kampf, in dem Waffen, Munition, industrielle Produktion und Nachschub eine zentrale Rolle spielen.'],
   ['Abnutzungsstrategie', 'Der Versuch, den Gegner durch fortgesetzte Verluste und Erschöpfung zum Nachgeben zu zwingen.'],

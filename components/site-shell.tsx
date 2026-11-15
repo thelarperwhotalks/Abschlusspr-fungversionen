@@ -12,8 +12,7 @@ const pages: { label: string; href: string; icon: LucideIcon }[] = [
 ]
 const sections: Record<string, { label: string; id: string; icon: LucideIcon }[]> = {
   '/': [{ label: 'Schnellzugriff', id: 'schnellzugriff', icon: Compass }, { label: 'Fakten', id: 'fakten', icon: Clock3 }],
-  '/geschichte': [{ label: 'Fakten', id: 'fakten', icon: FileText }, { label: 'Zeitleiste', id: 'zeitleiste', icon: Clock3 }, { label: 'Alltag', id: 'alltag', icon: Compass }, { label: 'Begriffe', id: 'begriffe', icon: BookMarked }, { label: 'FAQ', id: 'faq', icon: HelpCircle }],
-  '/wissenscheck': [{ label: 'Fragen', id: 'fragen', icon: HelpCircle }],
+  '/geschichte': [{ label: 'Fakten', id: 'fakten', icon: FileText }, { label: 'Zeitleiste', id: 'zeitleiste', icon: Clock3 }, { label: 'Verluste', id: 'verluste', icon: FileText }, { label: 'Chemische Waffen', id: 'gas', icon: Compass }, { label: 'Alltag', id: 'alltag', icon: Compass }, { label: 'Begriffe', id: 'begriffe', icon: BookMarked }, { label: 'FAQ', id: 'faq', icon: HelpCircle }],
   '/wissenstrainer': [{ label: 'Trainingsmodus', id: 'modi', icon: Trophy }],
   '/quellen': [{ label: 'Quellen', id: 'quellenliste', icon: BookMarked }, { label: 'Credits', id: 'credits', icon: FileText }],
   '/impressum': [{ label: 'Impressum', id: 'impressum', icon: FileText }],
@@ -22,7 +21,7 @@ const searchIndex = [
   ...pages.map(({ label, href }) => ({ title: label, detail: 'Seite öffnen', href })),
   ...timeline.map(([title, detail]) => ({ title, detail, href: `/geschichte#zeitleiste` })),
   ...glossary.map(([title, detail]) => ({ title, detail, href: `/geschichte#begriffe` })),
-  ...quizQuestions.map(({ question, topic }) => ({ title: question, detail: `Wissens-Check · ${topic}`, href: '/wissenscheck#fragen' })),
+  ...quizQuestions.map(({ question, topic }) => ({ title: question, detail: `Wissenstrainer · ${topic}`, href: '/wissenstrainer#modi' })),
   ...['Granattrichter', 'Schützengraben', 'Ratten und Läuse', 'Artillerie', 'Mondlandschaft'].map((title) => ({ title, detail: 'Alltag in Verdun', href: '/geschichte#alltag' })),
   ...['Verluste und Opferzahlen', 'Tote, Verwundete und Vermisste', 'Französische Verluste', 'Deutsche Verluste'].map((title) => ({ title, detail: 'Verluste · Zahlen und Einordnung', href: '/geschichte#verluste' })),
   ...['Chemische Waffen bei Verdun', 'Giftgas', 'Phosgen', 'Grünkreuz', 'Blaukreuz', 'Senfgas'].map((title) => ({ title, detail: 'Chemische Waffen · Kampfstoffe und Einsatz', href: '/geschichte#gas' })),
@@ -30,7 +29,7 @@ const searchIndex = [
   ...['Begriffe und Bedeutungen', 'Wissensspeicher'].map((title) => ({ title, detail: 'Wissensspeicher', href: '/wissenstrainer' })),
   ...['Was war die Voie Sacrée?', 'Wie lange dauerte die Schlacht?', 'Was geschah in Fort Douaumont?', 'Warum wurde Verdun angegriffen?', 'Wie war der Alltag im Schützengraben?'].map((title) => ({ title, detail: 'Häufige Fragen · Geschichte', href: '/geschichte#faq' })),
 ]
-type Resume = { path: string; label: string; href: string; scrollY: number; step?: number }
+type Resume = { path: string; label: string; href: string; scrollY: number }
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -70,13 +69,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       const current = nodes.filter((item) => item.getBoundingClientRect().top <= 170).at(-1)
       if (current) setActive(current.dataset.sectionId ?? current.id)
       if (pathname === '/') return
-      const step = Array.from(document.querySelectorAll<HTMLElement>('[data-step]')).filter((item) => item.getBoundingClientRect().top <= 210 && item.getBoundingClientRect().bottom > 150).at(-1)
       const currentId = current?.dataset.sectionId ?? current?.id
       const currentLabel = pageSections.find((item) => item.id === currentId)?.label ?? pages.find((item) => item.href === pathname)?.label ?? 'Verdun 1916'
-      const href = step ? `${pathname}#${step.id}` : currentId ? `${pathname}#${currentId}` : pathname
+      const href = currentId ? `${pathname}#${currentId}` : pathname
       if (Date.now() - lastSavedAt < 500) return
       lastSavedAt = Date.now()
-      const next: Resume = { path: pathname, label: step ? 'Anleitung' : currentLabel, href, scrollY: window.scrollY, ...(step ? { step: Number(step.dataset.step) } : {}) }
+      const next: Resume = { path: pathname, label: currentLabel, href, scrollY: window.scrollY }
       try { localStorage.setItem('verdun-last-place', JSON.stringify(next)) } catch { /* Resume position is optional when storage is unavailable. */ }
     }
     const onKey = (event: KeyboardEvent) => {
@@ -109,8 +107,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       while ((node = walker.nextNode())) {
         const value = node.textContent ?? ''
         const index = value.toLocaleLowerCase('de').indexOf(needle)
-        if (index < 0 || !node.parentNode) continue
-        const matched = node.splitText(index)
+        if (node.nodeType !== Node.TEXT_NODE || index < 0 || !node.parentNode) continue
+        const matched = (node as Text).splitText(index)
         matched.splitText(term.length)
         const mark = document.createElement('mark')
         mark.className = 'search-hit'
@@ -156,8 +154,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <nav className={`mobile-nav${mobileOpen ? ' is-open' : ''}`} aria-label="Mobile Navigation" aria-hidden={!mobileOpen} inert={!mobileOpen ? true : undefined}>{pages.map(({ label, href, icon: Icon }) => <Link href={href} key={href} className={pathname === href ? 'nav-active' : ''} aria-current={pathname === href ? 'page' : undefined} onClick={() => setMobileOpen(false)}><Icon size={17} />{label}</Link>)}</nav>
     {pageSections.length > 0 && <nav className="section-rail" aria-label="Bereiche auf dieser Seite">{pageSections.map(({ label, id }) => <a href={`#${id}`} key={id} className={active === id ? 'current' : ''} aria-current={active === id ? 'location' : undefined}>{label}</a>)}</nav>}
     <motion.main key={pathname} id="main-content" className="site-main" initial={reduceMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reduceMotion ? 0 : 0.24, ease: 'easeOut' }}>{children}</motion.main>
-    <footer className="site-footer"><div className="footer-brand"><span>Verdun 1916 · Historischer Überblick</span><small>Ein sachliches Informationsangebot zur Schlacht um Verdun.</small><small>Redaktion und Gestaltung: Niklas Schaub, Nils Schwemm und Samuel Verstraeten</small></div><div className="footer-links"><Link href="/quellen">Quellen</Link><Link href="/impressum">Impressum &amp; Credits</Link><Link href="/wissenstrainer">Wissenstrainer</Link></div><div className="footer-copy">© Niklas Schaub {new Date().getFullYear()}</div></footer>
+    <footer className="site-footer"><div className="footer-brand"><span>Verdun 1916 · Historischer Überblick</span><small>Ein sachliches Informationsangebot zur Schlacht um Verdun.</small><small>Redaktion und Gestaltung: Niklas Schaub, Nils Schwemm und Samuel Verstraeten</small></div><div className="footer-links"><Link href="/quellen">Quellen</Link><Link href="/impressum">Impressum &amp; Credits</Link><Link href="/wissenstrainer">Wissensspeicher</Link></div><div className="footer-copy">© Niklas Schaub {new Date().getFullYear()}</div></footer>
     {showTop && <button className="back-top" aria-label="Nach oben" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={18} /></button>}
-    {searchOpen && <div className="search-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setSearchOpen(false) }}><section className="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title" onKeyDown={trapSearchFocus}><div className="search-heading"><h2 id="search-title">Website durchsuchen</h2><button className="icon-button" onClick={() => setSearchOpen(false)} aria-label="Suche schließen"><X size={18} /></button></div><label className="search-input-wrap"><Search size={17} /><input id="site-search-input" aria-label="Suche nach Begriffen, Ereignissen und Seiten" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Begriffe, Ereignisse, Seiten …" /><kbd>ESC</kbd></label><div className="search-results" aria-label="Suchergebnisse">{resultGroups.length ? resultGroups.map((group) => <div className="search-group" key={group.href} role="group" aria-label={group.label}><p className="search-group-title">{group.label}</p>{group.items.map((result, index) => <Link href={result.href} key={`${result.href}-${result.title}-${index}`} onClick={openSearchResult}><span><small>{result.detail}</small><b>{result.title}</b></span><span aria-hidden="true">→</span></Link>)}</div>) : <p className="empty-search">Keine Treffer. Versuche einen anderen Suchbegriff.</p>}</div><p className="search-hint">Mit Ctrl + K oder ⌘ + K jederzeit öffnen</p></section></div>}
+    {searchOpen && <div className="search-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setSearchOpen(false) }}><section className="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title" onKeyDown={trapSearchFocus}><div className="search-heading"><h2 id="search-title">Website durchsuchen</h2><button className="icon-button" onClick={() => setSearchOpen(false)} aria-label="Suche schließen"><X size={18} /></button></div><label className="search-input-wrap"><Search size={17} /><input id="site-search-input" aria-label="Suche nach Begriffen, Ereignissen und Seiten" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Begriffe, Ereignisse, Seiten …" /><kbd>ESC</kbd></label><p className="sr-only" aria-live="polite">{query ? `${results.length} Suchergebnisse` : 'Suchbegriff eingeben'}</p><div className="search-results" aria-label="Suchergebnisse">{resultGroups.length ? resultGroups.map((group) => <div className="search-group" key={group.href} role="group" aria-label={group.label}><p className="search-group-title">{group.label}</p>{group.items.map((result, index) => <Link href={result.href} key={`${result.href}-${result.title}-${index}`} onClick={openSearchResult}><span><small>{result.detail}</small><b>{result.title}</b></span><span aria-hidden="true">→</span></Link>)}</div>) : <p className="empty-search">Keine Treffer. Versuche einen anderen Suchbegriff.</p>}</div><p className="search-hint">Mit Ctrl + K oder ⌘ + K jederzeit öffnen</p></section></div>}
   </div>
 }
