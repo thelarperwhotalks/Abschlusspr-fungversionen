@@ -4,6 +4,13 @@ All notable changes to this project are documented here. This changelog follows 
 
 ## [Unreleased]
 
+### Changed
+
+- Consolidated learning into the five-mode Wissenstrainer and redirected the former Wissens-Check URL.
+- Removed obsolete construction-guide components, unused UI primitives, and placeholder assets.
+- Updated credits and imprint copy to match the informational Verdun 1916 site.
+- Added baseline security response headers and restored strict build-time type checking.
+
 ## [1.0.0] - 2026-11-11
 
 ### Added
