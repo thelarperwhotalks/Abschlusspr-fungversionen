@@ -9,7 +9,7 @@ const tabs = [
   { id: 'ueberblick', label: 'Überblick' },
   { id: 'verlauf', label: 'Verlauf' },
   { id: 'verluste', label: 'Verluste' },
-  { id: 'gas', label: 'Chemische Waffen' },
+  { id: 'gas', label: 'Giftgas' },
 ]
 const timeline = [
   ['21. Februar', 'Beginn des deutschen Angriffs nach massivem Artilleriebeschuss. Die Operation trägt den Tarnnamen „Gericht“.'],
@@ -31,9 +31,9 @@ export function HomeContent() {
       <div className="hero-overlay" />
       <div className="hero-content">
         <p className="eyebrow">WESTFRONT · 21. FEBRUAR – 18. DEZEMBER 1916</p>
-        <h1>Verdun:<br />eine Schlacht ohnegleichen</h1>
-        <p className="hero-copy">302 Tage, Millionen Granaten und Hunderttausende Betroffene. Ein fundierter Überblick über eine der verlustreichsten Schlachten des Ersten Weltkriegs.</p>
-        <a className="button button-fill" href="#artikel">Zum Artikel <ArrowDown size={16} /></a>
+        <h1>Verdun:<br />eine Schlacht im Ersten Weltkrieg</h1>
+        <p className="hero-copy">Die Kämpfe dauerten 302 Tage. Viele Menschen wurden getötet oder verletzt. Hier erfährst du, warum die Schlacht begann, wie sie verlief und welche Folgen sie hatte.</p>
+        <a className="button button-fill" href="#artikel">Mehr erfahren <ArrowDown size={16} /></a>
         <div className="hero-credit">Einblicke in Geschichte, Folgen und Erinnerung · Niklas Schaub, Nils Schwemm &amp; Samuel Verstraeten</div>
       </div>
       <a className="scroll-cue" href="#artikel" aria-label="Zum Artikel"><ArrowDown size={18} /></a>
