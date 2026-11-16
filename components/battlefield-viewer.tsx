@@ -11,7 +11,7 @@ export function BattlefieldViewer() {
   const [locked, setLocked] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [speed, setSpeed] = useState(1)
-  const [sceneMode, setSceneMode] = useState<'2d' | '3d'>('2d')
+  const [sceneMode, setSceneMode] = useState<'2d' | '3d'>('3d')
   const playingState = useRef(playing)
   const speedState = useRef(speed)
   const elapsedState = useRef(elapsed)
@@ -30,7 +30,7 @@ export function BattlefieldViewer() {
     scene.background = new THREE.Color('#bbc4bf')
     scene.fog = new THREE.Fog('#bbc4bf', 42, 155)
     const camera = new THREE.PerspectiveCamera(62, host.clientWidth / host.clientHeight, 0.1, 220)
-    camera.position.set(0, 7, 22)
+    camera.position.set(0, 13, 27)
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.7))
     renderer.setSize(host.clientWidth, host.clientHeight)
@@ -48,36 +48,78 @@ export function BattlefieldViewer() {
     sun.shadow.mapSize.set(2048, 2048)
     scene.add(sun)
 
-    const terrainGeo = new THREE.PlaneGeometry(180, 180, 100, 100)
+    const terrainGeo = new THREE.PlaneGeometry(180, 180, 220, 220)
     terrainGeo.rotateX(-Math.PI / 2)
     const pos = terrainGeo.attributes.position as THREE.BufferAttribute
+    const colors = new Float32Array(pos.count * 3)
+    const colorA = new THREE.Color('#625f50'), colorB = new THREE.Color('#817760'), colorC = new THREE.Color('#47483f')
+    const craterSpecs = [[-12,-5,5,2.4],[17,7,7,2.8],[4,-24,6,2.1],[-28,19,7,2.6],[-38,-31,8,2.7],[31,-34,5,1.8],[37,29,9,2.5],[-3,38,6,1.9]]
     for (let i = 0; i < pos.count; i++) {
       const x = pos.getX(i), z = pos.getZ(i)
-      const crater = (cx: number, cz: number, r: number, depth: number) => -depth * Math.exp(-((x-cx)**2+(z-cz)**2)/(r*r))
-      pos.setY(i, Math.sin(x*.12)*.65 + Math.cos(z*.11)*.55 + Math.sin((x+z)*.07)*.45 + crater(-12,-5,5,2.4)+crater(17,7,7,2.8)+crater(4,-24,6,2.1)+crater(-28,19,7,2.6))
+      const broad = Math.sin(x*.12)*.65 + Math.cos(z*.11)*.55 + Math.sin((x+z)*.07)*.45
+      const detail = Math.sin(x*1.8+z*.6)*.09 + Math.cos(z*2.2-x*.35)*.07 + Math.sin((x-z)*4.1)*.025
+      let impact = 0
+      for (const [cx,cz,r,depth] of craterSpecs) {
+        const distance = Math.hypot(x-cx,z-cz)
+        impact -= depth * Math.exp(-(distance*distance)/(r*r*.3))
+        impact += .42 * Math.exp(-((distance-r*1.05)**2)/(r*r*.035))
+      }
+      const height = broad + detail + impact
+      pos.setY(i, height)
+      const color = colorA.clone().lerp(colorB, Math.max(0, Math.min(.75, .34 + height*.08 + Math.sin(x*.31+z*.17)*.12)))
+      if (impact < -.35) color.lerp(colorC, Math.min(.7, -impact*.18))
+      const tint = (Math.sin(x*3.7+z*2.4)*Math.cos(z*4.1-x*.9))*.045
+      color.offsetHSL(0, 0, tint)
+      colors[i*3]=color.r; colors[i*3+1]=color.g; colors[i*3+2]=color.b
     }
+    terrainGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3))
     terrainGeo.computeVertexNormals()
-    const terrain = new THREE.Mesh(terrainGeo, new THREE.MeshStandardMaterial({ color: '#77745f', roughness: 1, vertexColors: false }))
+    const terrain = new THREE.Mesh(terrainGeo, new THREE.MeshStandardMaterial({ roughness: 1, vertexColors: true }))
     terrain.receiveShadow = true
     scene.add(terrain)
 
-    const groundPatch = (x: number,z: number,w: number,d: number,color: string,rot=0) => {
-      const m = new THREE.Mesh(new THREE.PlaneGeometry(w,d), new THREE.MeshStandardMaterial({ color, roughness: 1, side: THREE.DoubleSide }))
-      m.rotation.x = -Math.PI/2; m.rotation.z = rot; m.position.set(x,.16,z); scene.add(m); return m
+    const earthMat = new THREE.MeshStandardMaterial({color:'#484438',roughness:1})
+    const timberMat = new THREE.MeshStandardMaterial({color:'#514637',roughness:1})
+    const trenchPath = (points: [number,number][], radius:number, material:THREE.Material) => {
+      const curve = new THREE.CatmullRomCurve3(points.map(([x,z])=>new THREE.Vector3(x,.18,z)))
+      const trench = new THREE.Mesh(new THREE.TubeGeometry(curve, Math.max(40,points.length*8), radius, 6, false), material)
+      trench.receiveShadow=true; scene.add(trench)
+      const parapet = new THREE.Mesh(new THREE.TubeGeometry(curve, Math.max(40,points.length*8), radius*1.85, 6, false), new THREE.MeshStandardMaterial({color:'#77705d',roughness:1}))
+      parapet.position.y=.23; parapet.receiveShadow=true; scene.add(parapet)
     }
-    // Broken earth and shallow trench networks are illustrative, not to scale.
-    groundPatch(-8,0,4,49,'#37372f',.07); groundPatch(1,1,3,43,'#403d34',-.1); groundPatch(10,0,3.5,39,'#38372f',.11)
-    for (const [x,z] of [[-8,-22],[-8,20],[1,-19],[1,23],[10,-17],[10,21]] as const) {
-      const berm = new THREE.Mesh(new THREE.BoxGeometry(5,.65,2.4), new THREE.MeshStandardMaterial({color:'#8d846e',roughness:1}))
-      berm.position.set(x,.35,z); berm.castShadow=true; scene.add(berm)
+    trenchPath([[-38,-29],[-27,-25],[-21,-19],[-14,-18],[-7,-14],[0,-16],[9,-12],[18,-13],[28,-9],[39,-12]],.32,earthMat)
+    trenchPath([[-39,5],[-29,3],[-20,7],[-13,4],[-5,8],[2,5],[11,9],[19,6],[30,10],[40,7]],.27,earthMat)
+    trenchPath([[-32,29],[-23,25],[-15,28],[-7,24],[2,27],[10,23],[18,26],[27,22],[36,25]],.25,earthMat)
+    trenchPath([[-18,-31],[-16,-22],[-19,-13],[-15,-5],[-18,4],[-14,13],[-17,23]],.2,timberMat)
+    trenchPath([[13,-29],[11,-21],[15,-13],[12,-4],[17,5],[14,14],[19,24]],.2,timberMat)
+
+    const rubbleMat = new THREE.MeshStandardMaterial({color:'#716b5c',roughness:1})
+    const fort = new THREE.Group(); fort.position.set(0,.2,-37); scene.add(fort)
+    const fortBase = new THREE.Mesh(new THREE.CylinderGeometry(8,9,2.2,12),new THREE.MeshStandardMaterial({color:'#625e52',roughness:1}))
+    fortBase.position.y=.65; fortBase.castShadow=true; fortBase.receiveShadow=true; fort.add(fortBase)
+    const keep = new THREE.Mesh(new THREE.CylinderGeometry(4.3,4.8,3.2,10),new THREE.MeshStandardMaterial({color:'#777262',roughness:.96}))
+    keep.position.y=2.9; keep.castShadow=true; keep.receiveShadow=true; fort.add(keep)
+    for(let i=0;i<22;i++){
+      const angle=i*2.399, radius=5.3+(i%4)*.75
+      const stone=new THREE.Mesh(new THREE.BoxGeometry(1.3+(i%3)*.55,.45+(i%4)*.22,1.2),rubbleMat)
+      stone.position.set(Math.cos(angle)*radius,.4+(i%3)*.16,Math.sin(angle)*radius); stone.rotation.y=angle; stone.rotation.z=(i%2?1:-1)*.12; stone.castShadow=true; fort.add(stone)
     }
-    // Sparse, subdued tree silhouettes and timber revetments establish scale.
-    const treeMat = new THREE.MeshStandardMaterial({color:'#4d5145',roughness:1})
-    for (let i=0;i<68;i++) {
+    const craterMat = new THREE.MeshStandardMaterial({color:'#514d42',roughness:1,side:THREE.DoubleSide})
+    for(const [cx,cz,r] of craterSpecs){
+      const rim=new THREE.Mesh(new THREE.TorusGeometry(r,.22,5,36),new THREE.MeshStandardMaterial({color:'#827864',roughness:1}))
+      rim.rotation.x=Math.PI/2; rim.position.set(cx,.12,cz); rim.scale.set(1,.72,1); rim.castShadow=true; scene.add(rim)
+      const floor=new THREE.Mesh(new THREE.CircleGeometry(r*.92,28),craterMat)
+      floor.rotation.x=-Math.PI/2; floor.position.set(cx,-.03,cz); floor.scale.set(1,.72,1); scene.add(floor)
+    }
+
+    const treeMat = new THREE.MeshStandardMaterial({color:'#454a40',roughness:1})
+    const trunkMat = new THREE.MeshStandardMaterial({color:'#514537',roughness:1})
+    for (let i=0;i<180;i++) {
       const x=(Math.sin(i*91.7)*.5+.5)*150-75, z=(Math.cos(i*37.3)*.5+.5)*150-75
-      if (Math.abs(x)<17 && Math.abs(z)<35) continue
-      const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.12,.22,2.2,5),new THREE.MeshStandardMaterial({color:'#514537'})); trunk.position.set(x,1,z); scene.add(trunk)
-      const crown=new THREE.Mesh(new THREE.ConeGeometry(1.15,3.2,6),treeMat); crown.position.set(x,3.4,z); scene.add(crown)
+      if (Math.abs(x)<21 && Math.abs(z)<43) continue
+      const scale=.55+((i*17)%11)/12
+      const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.1*scale,.2*scale,2.1*scale,5),trunkMat); trunk.position.set(x,1.05*scale,z); trunk.castShadow=true; scene.add(trunk)
+      const crown=new THREE.Mesh(new THREE.ConeGeometry(1.2*scale,3.5*scale,6),treeMat); crown.position.set(x,3.25*scale,z); crown.castShadow=true; scene.add(crown)
     }
     const markerGroup = new THREE.Group(); scene.add(markerGroup)
     const markers: THREE.Mesh[] = []
@@ -92,7 +134,7 @@ export function BattlefieldViewer() {
     const smokeMat=new THREE.MeshStandardMaterial({color:'#777873',transparent:true,opacity:.22,roughness:1})
     for(let i=0;i<13;i++){const puff=new THREE.Mesh(new THREE.SphereGeometry(1.1+(i%3)*.45,10,8),smokeMat);puff.position.set(-25+i*4.2,2.8+(i%4)*.5,-26+(i%3)*10);scene.add(puff)}
 
-    const keys=new Set<string>(); let yaw=0,pitch=-.12, isLocked=false, frame=0, last=performance.now()
+    const keys=new Set<string>(); let yaw=0,pitch=-.48, isLocked=false, frame=0, last=performance.now()
     const onKeyDown=(e:KeyboardEvent)=>{keys.add(e.code);if(['Space','ArrowUp','ArrowDown'].includes(e.code))e.preventDefault()}
     const onKeyUp=(e:KeyboardEvent)=>keys.delete(e.code)
     const onMouse=(e:MouseEvent)=>{if(!isLocked)return;yaw-=e.movementX*.0022;pitch=Math.max(-1.25,Math.min(1.15,pitch-e.movementY*.0022))}
