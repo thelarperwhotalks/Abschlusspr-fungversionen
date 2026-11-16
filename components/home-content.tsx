@@ -20,7 +20,7 @@ const timeline = [
   ['Oktober–Dezember', 'Französische Gegenoffensiven nehmen Douaumont und Vaux zurück. Am 18. Dezember enden die großen Kampfhandlungen.'],
 ]
 const facts = [
-  ['302', 'Tage zwischen Beginn und Ende der Schlacht'], ['≈ 700.000', 'militärische Verluste beider Seiten zusammen (Tote, Verwundete und Vermisste)'], ['≈ 377.000', 'französische Verluste, je nach Zählweise'], ['≈ 337.000', 'deutsche Verluste, je nach Zählweise'],
+  ['302', 'Tage zwischen Beginn und Ende der Schlacht'], ['≈ 712.000', 'militärische Gesamtverluste beider Seiten, je nach Zählweise'], ['≈ 379.000', 'französische Verluste, je nach Zählweise'], ['≈ 333.000', 'deutsche Verluste, je nach Zählweise'],
 ]
 
 export function HomeContent() {
