@@ -1,5 +1,7 @@
-import { redirect } from 'next/navigation'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { EmpireMap } from '@/components/empire-map'
 
-export default function EntdeckerkartePage() {
-  redirect('/geschichte')
-}
+export const metadata: Metadata = { title: 'Karte des Kaiserreichs · Territorium 1914', description: 'Geografischer Überblick über das Deutsche Kaiserreich und seine Regionen im Jahr 1914.' }
+
+export default function MapPage(){return <article className="page-content"><header className="page-hero"><p className="section-kicker">RAUM &amp; TERRITORIUM · UM 1914</p><h1>Das Deutsche Kaiserreich auf der Karte</h1><p className="lead">Preußen bildete das größte Glied des Bundesstaats. Die Karte hilft bei der geografischen Orientierung; für exakte historische Grenzen siehe die weiterführenden Hinweise.</p><Link className="back-link" href="/">← Zurück zur Übersicht</Link></header><section className="content-section empire-map-section" id="territorium"><p className="section-kicker">MITTELEUROPA</p><h2>Ein föderales Reich in Europa</h2><EmpireMap/><p className="map-caveat">Kartografischer Hinweis: Die Grundkarte zeigt heutige Staatsgrenzen zur Orientierung, nicht die exakte Grenzziehung von 1914. Das Kaiserreich umfasste zusätzlich Gebiete wie Elsass-Lothringen und Ostpreußen, die heute zu Frankreich beziehungsweise Polen und Russland gehören. Historische Grenzlinien sind hier nicht parzellenscharf rekonstruiert.</p><div className="empire-map-facts"><article><b>Preußen</b><p>Das größte Königreich stellte den Kaiser und prägte Politik und Militär.</p></article><article><b>25 Bundesstaaten</b><p>Vier Königreiche, weitere Fürstentümer und drei freie Städte bildeten den Bundesstaat.</p></article><article><b>Elsass-Lothringen</b><p>Das Reichsland wurde 1871 annektiert und war kein Bundesstaat mit gleicher Stellung.</p></article></div><p className="source-note">Zum Vergleich: <a className="text-link" href="https://commons.wikimedia.org/wiki/Category:Maps_of_the_German_Empire" target="_blank" rel="noreferrer">historische Karten des Deutschen Kaiserreichs auf Wikimedia Commons ↗</a>. Die Geometrie in dieser interaktiven Karte stammt aus dem Natural Earth World Atlas (modernes Länder-Polygon).</p></section></article>}

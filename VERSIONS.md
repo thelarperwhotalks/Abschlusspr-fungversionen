@@ -2,7 +2,7 @@
 
 | Version | Folder | Date | Summary |
 | --- | --- | --- | --- |
-| v1.0 | `versions/v1.0-baseline/` | 2026-11-11 | Initial complete runnable source snapshot for Verdun 1916, including the responsive learning site, history content, explorer-map guide, knowledge check, trainer, public assets, and project configuration. |
+| v1.0 | `versions/v1.0-baseline/` | 2026-11-11 | Initial complete runnable source snapshot for the original Verdun 1916 learning site, including its history content, trainer, public assets, and project configuration. |
 
 ## Restore instructions
 
