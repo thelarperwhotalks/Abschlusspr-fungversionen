@@ -4,11 +4,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowUp, BookOpen, BookMarked, ChevronDown, Compass, HelpCircle, Menu, Moon, Search, Sun, Trophy, X, Clock3, Home, FileText, Map, UsersRound, type LucideIcon } from 'lucide-react'
+import { ArrowUp, BookOpen, BookMarked, ChevronDown, Compass, Menu, Moon, Search, Sun, Trophy, X, Clock3, Home, FileText, Map, UsersRound, type LucideIcon } from 'lucide-react'
 import { glossary, quizQuestions, timeline } from '@/lib/trainer-data'
 
 const pages: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: 'Start', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: 'Karte', href: '/entdeckerkarte', icon: Map }, { label: 'Familien', href: '/familie', icon: UsersRound }, { label: 'Verdun 3D', href: '/schlachtfeld', icon: Compass }, { label: 'Lernen', href: '/wissenstrainer', icon: BookMarked },
+  { label: 'Start', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: 'Karte', href: '/entdeckerkarte', icon: Map }, { label: 'Familien', href: '/familie', icon: UsersRound }, { label: 'Lernen', href: '/wissenstrainer', icon: BookMarked }, { label: 'Quellen', href: '/quellen', icon: FileText },
 ]
 const sections: Record<string, { label: string; id: string; icon: LucideIcon }[]> = {
   '/geschichte': [{ label: 'Gründung', id: 'gruendung', icon: FileText }, { label: 'Verfassung', id: 'verfassung', icon: BookOpen }, { label: 'Zeitleiste', id: 'zeitleiste', icon: Clock3 }, { label: 'Gesellschaft', id: 'gesellschaft', icon: UsersRound }, { label: 'Ende 1918', id: 'ende', icon: Compass }],
@@ -26,7 +26,7 @@ const searchIndex = [
   ...['Wilhelm I.', 'Friedrich III.', 'Wilhelm II.', 'Otto von Bismarck', 'Auguste Viktoria'].map((title) => ({ title, detail: 'Kaiser und Familie', href: '/familie' })),
   ...['Preußen', 'Elsass-Lothringen', 'Ostpreußen', 'Berlin', '25 Bundesstaaten'].map((title) => ({ title, detail: 'Territorium des Kaiserreichs', href: '/entdeckerkarte#territorium' })),
   ...['Reichsgründung', 'Reichskanzler', 'Bundesrat', 'Reichstag', 'Dreikaiserjahr', 'Novemberrevolution'].map((title) => ({ title, detail: 'Geschichte des Kaiserreichs', href: '/geschichte#verfassung' })),
-  ...['Kaiserreich 1871–1918', 'Das Deutsche Reich', 'Zeitraffer Verdun'].map((title) => ({ title, detail: 'Geschichte und Erkundung', href: '/geschichte' })),
+  ...['Kaiserreich 1871–1918', 'Das Deutsche Reich'].map((title) => ({ title, detail: 'Geschichte und Erkundung', href: '/geschichte' })),
   ...['Begriffe und Bedeutungen', 'Lernmodus'].map((title) => ({ title, detail: 'Lernen · Deutsches Kaiserreich', href: '/wissenstrainer' })),
 ]
 type Resume = { path: string; label: string; href: string; scrollY: number }
@@ -70,7 +70,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
       if (current) setActive(current.dataset.sectionId ?? current.id)
       if (pathname === '/') return
       const currentId = current?.dataset.sectionId ?? current?.id
-      const currentLabel = pageSections.find((item) => item.id === currentId)?.label ?? pages.find((item) => item.href === pathname)?.label ?? 'Verdun 1916'
+      const currentLabel = pageSections.find((item) => item.id === currentId)?.label ?? pages.find((item) => item.href === pathname)?.label ?? 'Deutsches Kaiserreich'
       const href = currentId ? `${pathname}#${currentId}` : pathname
       if (Date.now() - lastSavedAt < 500) return
       lastSavedAt = Date.now()

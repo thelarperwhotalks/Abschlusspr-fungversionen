@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowDown, ArrowRight, BookOpen, Crown, Globe2, Map, ScrollText, UsersRound } from 'lucide-react'
+import { ArrowDown, ArrowRight, BookMarked, BookOpen, Crown, Globe2, Map, ScrollText, UsersRound } from 'lucide-react'
 
 const milestones = [
   ['1871', 'Reichsgründung', 'Die deutschen Staaten schließen sich unter preußischer Führung zum Kaiserreich zusammen.'],
@@ -12,7 +12,7 @@ const features = [
   { href: '/geschichte', icon: BookOpen, title: 'Geschichte im Überblick', text: 'Reichsgründung, Verfassung, Politik und das Ende 1918 – kurz und verständlich.' },
   { href: '/entdeckerkarte', icon: Map, title: 'Territorium 1914', text: 'Eine geografische Orientierung zu den Ländern und Regionen des Kaiserreichs.' },
   { href: '/familie', icon: UsersRound, title: 'Zwei Familien im Wandel', text: 'Die Hohenzollern und die Familie Bismarck in kompakten Stammbäumen.' },
-  { href: '/schlachtfeld', icon: Globe2, title: '3D-Einblick: Verdun', text: 'Erkunde die Schlacht von 1916 als zeitgeschichtliches Beispiel im Ersten Weltkrieg.' },
+  { href: '/wissenstrainer', icon: BookMarked, title: 'Wissen festigen', text: 'Übe Daten, Begriffe und Zusammenhänge mit kurzen interaktiven Lernmodi.' },
 ]
 
 export function EmpireHome() {
