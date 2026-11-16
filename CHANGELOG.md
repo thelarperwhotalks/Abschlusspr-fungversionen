@@ -6,6 +6,9 @@ All notable changes to this project are documented here. This changelog follows 
 
 ### Changed
 
+- Refined the site-wide editorial hierarchy and responsive page introductions with a restrained archival palette.
+- Removed homepage section shortcuts that pointed to content which was not present on the page.
+- Aligned loss estimates and chemical-weapons descriptions across the homepage and history guide.
 - Consolidated learning into the five-mode Wissenstrainer and redirected the former Wissens-Check URL.
 - Removed obsolete construction-guide components, unused UI primitives, and placeholder assets.
 - Updated credits and imprint copy to match the informational Verdun 1916 site.
