@@ -8,7 +8,7 @@ import { ArrowUp, BookOpen, BookMarked, ChevronDown, Compass, HelpCircle, Menu, 
 import { glossary, quizQuestions, timeline } from '@/lib/trainer-data'
 
 const pages: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: 'Startseite', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: 'Wissensspeicher', href: '/wissenstrainer', icon: BookMarked }, { label: 'Quellen', href: '/quellen', icon: FileText },
+  { label: 'Startseite', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: '3D-Schlachtfeld', href: '/schlachtfeld', icon: Compass }, { label: 'Wissensspeicher', href: '/wissenstrainer', icon: BookMarked }, { label: 'Quellen', href: '/quellen', icon: FileText },
 ]
 const sections: Record<string, { label: string; id: string; icon: LucideIcon }[]> = {
   '/geschichte': [{ label: 'Fakten', id: 'fakten', icon: FileText }, { label: 'Zeitleiste', id: 'zeitleiste', icon: Clock3 }, { label: 'Verluste', id: 'verluste', icon: FileText }, { label: 'Chemische Waffen', id: 'gas', icon: Compass }, { label: 'Alltag', id: 'alltag', icon: Compass }, { label: 'Begriffe', id: 'begriffe', icon: BookMarked }, { label: 'Häufige Fragen', id: 'faq', icon: HelpCircle }],
