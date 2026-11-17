@@ -10,9 +10,8 @@ const milestones = [
 ]
 const features = [
   { href: '/geschichte', image: '/imperial-berlin.png', icon: BookOpen, title: 'Geschichte im Überblick', text: 'Reichsgründung, Verfassung, Politik und das Ende 1918 – kurz und verständlich.', tag: 'POLITIK & GESELLSCHAFT' },
-  { href: '/entdeckerkarte', image: '/german-empire-hero.png', icon: Map, title: 'Territorium 1914', text: 'Eine geografische Orientierung zu den Ländern und Regionen des Kaiserreichs.', tag: 'LÄNDER & GRENZEN' },
+  { href: '/entdeckerkarte', image: '/german-empire-hero.png', icon: Map, title: 'Deutschland & Europa im Vergleich', text: 'Heutige Grenzen neben dem Deutschen Kaiserreich und Europa von 1914 entdecken.', tag: 'KARTENATLAS' },
   { href: '/familie', image: '/imperial-industry.png', icon: UsersRound, title: 'Zwei Familien im Wandel', text: 'Die Hohenzollern und die Familie Bismarck in kompakten Stammbäumen.', tag: 'MENSCHEN & FAMILIEN' },
-  { href: '/schlachtfeld', image: '/verdun-hero.png', icon: Globe2, title: '3D-Einblick: Verdun', text: 'Erkunde die Schlacht von 1916 als zeitgeschichtliches Beispiel im Ersten Weltkrieg.', tag: 'EUROPA IM KRIEG' },
 ]
 
 export function EmpireHome() {
