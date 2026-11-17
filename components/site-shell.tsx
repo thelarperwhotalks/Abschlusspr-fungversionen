@@ -8,7 +8,7 @@ import { ArrowUp, BookOpen, BookMarked, ChevronDown, Compass, HelpCircle, Menu, 
 import { glossary, quizQuestions, timeline } from '@/lib/trainer-data'
 
 const pages: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: 'Start', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: 'Karte', href: '/entdeckerkarte', icon: Map }, { label: 'Familien', href: '/familie', icon: UsersRound }, { label: 'Lernen', href: '/wissenstrainer', icon: BookMarked },
+  { label: 'Start', href: '/', icon: Home }, { label: 'Geschichte', href: '/geschichte', icon: BookOpen }, { label: 'Karte', href: '/entdeckerkarte', icon: Map }, { label: 'Familien', href: '/familie', icon: UsersRound }, { label: 'Verdun 3D', href: '/schlachtfeld', icon: Compass }, { label: 'Lernen', href: '/wissenstrainer', icon: BookMarked },
 ]
 const sections: Record<string, { label: string; id: string; icon: LucideIcon }[]> = {
   '/geschichte': [{ label: 'Gründung', id: 'gruendung', icon: FileText }, { label: 'Verfassung', id: 'verfassung', icon: BookOpen }, { label: 'Zeitleiste', id: 'zeitleiste', icon: Clock3 }, { label: 'Gesellschaft', id: 'gesellschaft', icon: UsersRound }, { label: 'Ende 1918', id: 'ende', icon: Compass }],
