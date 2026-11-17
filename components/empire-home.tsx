@@ -2,16 +2,16 @@ import Link from 'next/link'
 import { ArrowDown, ArrowRight, BookOpen, Crown, Globe2, Map, ScrollText, UsersRound } from 'lucide-react'
 
 const milestones = [
-  ['1871', 'Reichsgründung', 'Die deutschen Staaten schließen sich unter preußischer Führung zum Kaiserreich zusammen.'],
-  ['1888', 'Dreikaiserjahr', 'Wilhelm I. und Friedrich III. sterben; Wilhelm II. wird Kaiser.'],
-  ['1890', 'Ende der Ära Bismarck', 'Bismarck scheidet aus dem Amt des Reichskanzlers aus.'],
-  ['1914', 'Erster Weltkrieg', 'Das Reich tritt in den Krieg ein; Europa wird zum Kriegsschauplatz.'],
-  ['1918', 'Ende des Kaiserreichs', 'Revolution, Waffenstillstand und Abdankung Wilhelms II. beenden die Monarchie.'],
+  ['1871', 'Das Reich entsteht', 'Die Proklamation in Versailles begründet einen deutschen Nationalstaat unter preußischer Führung.'],
+  ['1888', 'Ein Jahr, drei Kaiser', 'Auf Wilhelm I. folgt Friedrich III.; nach nur 99 Tagen wird Wilhelm II. Kaiser.'],
+  ['1890', 'Bismarcks Abschied', 'Nach fast zwei Jahrzehnten als Reichskanzler scheidet Otto von Bismarck aus dem Amt.'],
+  ['1914', 'Europa im Krieg', 'Der Erste Weltkrieg verändert Alltag, Politik und das Leben von Millionen Menschen.'],
+  ['1918', 'Umbruch und Republik', 'Revolution und Abdankung beenden die Monarchie und das Kaiserreich.'],
 ]
 const features = [
-  { href: '/geschichte', icon: BookOpen, title: 'Geschichte im Überblick', text: 'Reichsgründung, Verfassung, Politik und das Ende 1918 – kurz und verständlich.' },
-  { href: '/entdeckerkarte', icon: Map, title: 'Territorium 1914', text: 'Eine geografische Orientierung zu den Ländern und Regionen des Kaiserreichs.' },
-  { href: '/familie', icon: UsersRound, title: 'Zwei Familien im Wandel', text: 'Die Hohenzollern und die Familie Bismarck in kompakten Stammbäumen.' },
+  { href: '/geschichte', image: '/imperial-berlin.png', eyebrow: '01 · POLITIK & GESELLSCHAFT', icon: BookOpen, title: 'Ein Reich im Wandel', text: 'Von der Reichsgründung bis zur Revolution: die wichtigsten Ereignisse und Kräfte.', action: 'Geschichte entdecken' },
+  { href: '/entdeckerkarte', image: '/german-empire-hero.png', eyebrow: '02 · LÄNDER & GRENZEN', icon: Map, title: '25 Länder, ein Reich', text: 'Entdecke die föderale Landkarte und die Regionen des Kaiserreichs.', action: 'Karte erkunden' },
+  { href: '/familie', image: '/imperial-industry.png', eyebrow: '03 · MENSCHEN & FAMILIEN', icon: UsersRound, title: 'Familien im Wandel', text: 'Lerne die Hohenzollern und Bismarcks mit interaktiven Stammbäumen kennen.', action: 'Familien kennenlernen' },
 ]
 
 export function EmpireHome() {
@@ -19,26 +19,27 @@ export function EmpireHome() {
     <section className="hero empire-hero" id="start">
       <div className="hero-overlay" />
       <div className="hero-content">
-        <p className="eyebrow">DEUTSCHES KAISERREICH · 1871–1918</p>
-        <h1>Ein Reich.<br />47 Jahre Geschichte.</h1>
-        <p className="hero-copy">Ein kompakter Überblick über Entstehung, Alltag, Herrschaft und Ende des Deutschen Kaiserreichs – vom Nationalstaat unter Wilhelm I. bis zur Abdankung Wilhelms II.</p>
-        <div className="hero-actions"><Link className="button button-fill" href="/geschichte">Geschichte entdecken <ArrowRight size={16} /></Link><a className="button button-ghost" href="#zeitleiste">Zur Zeitleiste <ArrowDown size={16} /></a></div>
-        <div className="hero-facts"><div><strong>1871–1918</strong><span>Deutsches Kaiserreich</span></div><div><strong>25</strong><span>Bundesstaaten</span></div><div><strong>3</strong><span>Kaiser</span></div></div>
+        <p className="eyebrow"><span className="eyebrow-mark" /> Ein digitales Geschichtsmagazin · 1871—1918</p>
+        <h1>Eine Zeit.<br/><em>Ein Reich.</em><br/>Ein Umbruch.</h1>
+        <p className="hero-copy">Tauche ein in die Geschichte eines Landes zwischen Aufbruch, Macht und Wandel. Entdecke die Menschen, Ideen und Ereignisse, die Deutschland geprägt haben.</p>
+        <div className="hero-actions"><Link className="button button-fill" href="/geschichte">Die Geschichte erleben <ArrowRight size={16}/></Link><a className="button button-ghost" href="#zeitleiste">Zeitreise starten <ArrowDown size={16}/></a></div>
+        <div className="hero-facts"><div><strong>47</strong><span>Jahre Zeitgeschichte</span></div><div><strong>25</strong><span>Bundesstaaten</span></div><div><strong>3</strong><span>Kaiser</span></div></div>
       </div>
-      <a className="scroll-cue" href="#zeitleiste" aria-label="Zur Zeitleiste"><ArrowDown size={18} /></a>
+      <div className="hero-caption"><span>Berlin, um 1900</span><span>Ein Reich im Aufbruch</span></div>
+      <a className="scroll-cue" href="#zeitleiste" aria-label="Zur Zeitleiste"><ArrowDown size={18}/></a>
     </section>
     <section className="empire-timeline content-section" id="zeitleiste">
-      <p className="section-kicker">FÜNF DATEN ZUR ORIENTIERUNG</p><h2>Vom Nationalstaat zum Umbruch</h2>
-      <div className="empire-milestones">{milestones.map(([year,title,detail])=><article className="empire-milestone" key={year}><time>{year}</time><div><h3>{title}</h3><p>{detail}</p></div></article>)}</div>
+      <div className="section-heading-row"><div><p className="section-kicker">EIN HALBES JAHRHUNDERT AUF EINEN BLICK</p><h2>Fünf Momente,<br/><em>die alles veränderten.</em></h2></div><p className="section-sidecopy">Folge den Spuren eines jungen Nationalstaats – von seinem glanzvollen Anfang bis zu seinem dramatischen Ende.</p></div>
+      <div className="empire-milestones">{milestones.map(([year,title,detail],index)=><article className="empire-milestone" key={year}><time>{year}</time><span className="milestone-dot" aria-hidden="true"/><div><span className="milestone-index">0{index+1}</span><h3>{title}</h3><p>{detail}</p></div></article>)}</div>
     </section>
     <section className="empire-discover content-section" id="themen">
-      <p className="section-kicker">THEMEN &amp; EINSTIEGE</p><h2>Das Kaiserreich auf einen Blick</h2><p className="intro">Ein föderaler Staat mit dem Königreich Preußen als stärkstem Glied: Die folgenden Einstiege erklären seine wichtigsten Institutionen, Menschen und Regionen.</p>
-      <div className="empire-feature-grid">{features.map(({href,icon:Icon,title,text})=><Link className="empire-feature" href={href} key={href}><span className="empire-feature-icon"><Icon size={19}/></span><span><b>{title}</b><small>{text}</small></span><ArrowRight className="empire-feature-arrow" size={17}/></Link>)}</div>
+      <p className="section-kicker">DAS KAISERREICH ENTDECKEN</p><div className="section-heading-row discover-heading"><h2>Geschichte, die<br/><em>näher kommt.</em></h2><p className="section-sidecopy">Mehr als Jahreszahlen: Bilder, Orte und Geschichten erzählen vom Leben in einer Epoche voller Gegensätze.</p></div>
+      <div className="empire-feature-grid">{features.map(({href,image,eyebrow,icon:Icon,title,text,action})=><Link className="empire-feature" href={href} key={href}><span className="feature-image" style={{backgroundImage:`url(${image})`}} role="img" aria-label={title}/><span className="feature-content"><span className="feature-topline"><span className="empire-feature-icon"><Icon size={17}/></span><small>{eyebrow}</small></span><b>{title}</b><small className="feature-description">{text}</small><span className="feature-action">{action}<ArrowRight size={15}/></span></span></Link>)}</div>
     </section>
     <section className="empire-constitution content-section">
-      <p className="section-kicker">STAAT &amp; GESELLSCHAFT</p><h2>Eine Monarchie mit föderaler Verfassung</h2>
-      <div className="empire-three"><article><Crown/><h3>Kaiser und Reichskanzler</h3><p>Der Kaiser war Staatsoberhaupt. Der von ihm ernannte Reichskanzler leitete die Reichspolitik und war dem Kaiser, nicht dem Reichstag, verantwortlich.</p></article><article><ScrollText/><h3>Bundesrat und Reichstag</h3><p>Der Bundesrat vertrat die Regierungen der Bundesstaaten. Der Reichstag wurde von Männern gewählt; das allgemeine Wahlrecht galt nicht für Frauen.</p></article><article><Globe2/><h3>Ein Reich, viele Länder</h3><p>Preußen prägte das Reich, doch Königreiche, Fürstentümer und freie Städte behielten eigene Regierungen und unterschiedliche Zuständigkeiten.</p></article></div>
-      <p className="empire-caution">Das Kaiserreich veränderte sich über fast fünf Jahrzehnte. Diese Seite bietet einen Einstieg und vereinfacht Debatten und regionale Unterschiede bewusst.</p>
+      <div className="constitution-image" role="img" aria-label="Historische Ansicht des Reichstags in Berlin"/>
+      <div className="constitution-copy"><p className="section-kicker">MACHT, POLITIK & GESELLSCHAFT</p><h2>Ein Reich.<br/><em>Viele Stimmen.</em></h2><p>Eine Monarchie, ein gewähltes Parlament und 25 Bundesstaaten: Das politische System des Kaiserreichs war geprägt von Zusammenarbeit und Machtkonflikten.</p><div className="empire-three"><article><Crown/><h3>Kaiser & Kanzler</h3><p>Der Kaiser ernannte den Reichskanzler und prägte die Außenpolitik.</p></article><article><ScrollText/><h3>Reichstag</h3><p>Gewählte Abgeordnete debattierten über Gesetze und den Haushalt.</p></article><article><Globe2/><h3>Bundesstaaten</h3><p>Die Länder behielten eigene Regierungen und unterschiedliche Rechte.</p></article></div><Link className="text-link" href="/geschichte#verfassung">Das politische System verstehen <ArrowRight size={15}/></Link></div>
     </section>
+    <section className="home-endnote"><span className="endnote-ornament"><Crown size={18}/></span><p>Geschichte ist nie nur Vergangenheit.</p><h2>Sie erzählt, wie wir<br/><em>geworden sind.</em></h2><Link className="button button-fill" href="/wissenstrainer">Wissen testen <ArrowRight size={16}/></Link></section>
   </>
 }
