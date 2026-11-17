@@ -2,6 +2,28 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { EmpireMap } from '@/components/empire-map'
 
-export const metadata: Metadata = { title: 'Karte des Kaiserreichs · Territorium 1914', description: 'Interaktive Karte zum Vergleich des Deutschen Kaiserreichs von 1914 mit dem heutigen Deutschland.' }
+export const metadata: Metadata = {
+  title: 'Deutschland und Europa im Kartenvergleich',
+  description: 'Vergleiche heutige Grenzen Deutschlands und Europas mit den politischen Grenzen des Deutschen Kaiserreichs und Europas im Jahr 1914.',
+}
 
-export default function MapPage(){return <article className="page-content"><header className="page-hero"><p className="section-kicker">RAUM &amp; TERRITORIUM · UM 1914</p><h1>Das Deutsche Kaiserreich auf der Karte</h1><p className="lead">Schwarz zeigt schematisch das Reichsgebiet von 1914, Rot markiert das heutige Deutschland. Preußen bildete das größte Glied des Bundesstaats.</p><Link className="back-link" href="/">← Zurück zur Übersicht</Link></header><section className="content-section empire-map-section" id="territorium"><p className="section-kicker">MITTELEUROPA</p><h2>Ein föderales Reich in Europa</h2><EmpireMap/><p className="map-caveat">Kartografischer Hinweis: Schwarz stellt das Reichsgebiet von 1914 in einer vereinfachten Umrissfläche dar; Rot zeigt heutige Staatsgrenzen. Die historische Grenzlinie ist nicht parzellenscharf rekonstruiert. Elsass-Lothringen und Ostpreußen lagen innerhalb des damaligen Reichsgebiets.</p><div className="empire-map-facts"><article><b>Preußen</b><p>Das größte Königreich stellte den Kaiser und prägte Politik und Militär.</p></article><article><b>25 Bundesstaaten</b><p>Vier Königreiche, weitere Fürstentümer und drei freie Städte bildeten den Bundesstaat.</p></article><article><b>Elsass-Lothringen</b><p>Das Reichsland wurde 1871 annektiert und war kein Bundesstaat mit gleicher Stellung.</p></article></div><p className="source-note">Zum Vergleich: <a className="text-link" href="https://commons.wikimedia.org/wiki/Category:Maps_of_the_German_Empire" target="_blank" rel="noreferrer">historische Karten des Deutschen Kaiserreichs auf Wikimedia Commons ↗</a>. Die Geometrie in dieser interaktiven Karte stammt aus dem Natural Earth World Atlas (modernes Länder-Polygon).</p></section></article>}
+export default function MapPage() {
+  return <article className="page-content atlas-page">
+    <header className="page-hero atlas-page-hero">
+      <p className="section-kicker">KARTENATLAS · GRENZEN IM WANDEL</p>
+      <h1>Deutschland und Europa im Vergleich</h1>
+      <p className="lead">Wechsle zwischen dem heutigen Europa, der Karte von 1914 und dem direkten Vergleich der Reichsgrenzen mit dem heutigen Deutschland.</p>
+      <Link className="back-link" href="/">← Zurück zur Übersicht</Link>
+    </header>
+    <section className="content-section empire-map-section" id="territorium">
+      <div className="atlas-intro"><div><p className="section-kicker">DREI ANSICHTEN · ZWEI ZEITEN</p><h2>Grenzen erzählen Geschichte</h2></div><p>Die Karten zeigen, wie stark sich politische Zugehörigkeiten und Staatsgrenzen in Europa verändert haben.</p></div>
+      <EmpireMap/>
+      <div className="atlas-context">
+        <article><span>01 · REICHSGEBIET</span><h3>Ein größerer Staat als heute</h3><p>Das Deutsche Kaiserreich umfasste 1914 unter anderem Elsass-Lothringen, Westpreußen, Posen und Ostpreußen. Die Karte überlagert die damalige Reichsfläche mit den heutigen Grenzen.</p></article>
+        <article><span>02 · EUROPA 1914</span><h3>Imperien und Nationalstaaten</h3><p>Vor dem Ersten Weltkrieg prägten große Vielvölkerreiche wie Österreich-Ungarn, Russland und das Osmanische Reich die politische Karte Europas.</p></article>
+        <article><span>03 · EINORDNUNG</span><h3>Keine heutigen Grenzen in der Vergangenheit</h3><p>Die historischen Flächen folgen dem Forschungsdatensatz für 1914. Grenzen und Staatsformen änderten sich im Verlauf der Epoche; diese Ansicht bildet einen Stichtag ab.</p></article>
+      </div>
+      <p className="atlas-source">Kartendaten: Jack Kavanagh, <a href="https://doi.org/10.5281/zenodo.21341486" target="_blank" rel="noreferrer">Map of Europe, c. 1914</a>, Zenodo, CC BY 4.0. Heutige Ländergrenzen: Natural Earth / world-atlas.</p>
+    </section>
+  </article>
+}
