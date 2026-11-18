@@ -1,20 +1,104 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { connection } from 'next/server'
+import { getHistoryContent } from '@/lib/site-content'
 
-export const metadata: Metadata = { title: 'Geschichte des Kaiserreichs · 1871–1918', description: 'Ein kompakter Überblick zur Gründung, Verfassung, Gesellschaft und zum Ende des Deutschen Kaiserreichs.' }
-const dates = [
- ['18. Januar 1871','In Versailles wird Wilhelm I. zum Deutschen Kaiser proklamiert. Die Reichsgründung folgt auf die Einigungskriege und schließt die deutschen Staaten unter preußischer Führung zusammen.'],
- ['1871','Die Reichsverfassung ordnet die Zuständigkeiten zwischen Kaiser, Reichskanzler, Bundesrat und Reichstag. Das Reich bleibt ein Bund von Ländern, kein zentralistischer Einheitsstaat.'],
- ['1888','Das Dreikaiserjahr: Wilhelm I. und Friedrich III. sterben; Wilhelm II. übernimmt den Thron.'],
- ['1890','Otto von Bismarck scheidet als Reichskanzler aus. Unter Wilhelm II. verändert sich die Außen- und Innenpolitik.'],
- ['1914','Nach der Julikrise beginnt der Erste Weltkrieg. Das Kaiserreich wird Teil eines gesamteuropäischen Krieges.'],
- ['9. November 1918','In der Revolution endet die Monarchie. Wilhelm II. verzichtet auf den Thron und geht ins Exil.'],
- ['11. November 1918','Der Waffenstillstand beendet die Kämpfe an der Westfront. Das Kaiserreich ist Geschichte; die Republik wird ausgerufen.'],
-]
-const institutions = [
- ['Der Kaiser','Staatsoberhaupt und Oberbefehlshaber. Wilhelm I. regierte 1871–1888, Friedrich III. 1888 und Wilhelm II. 1888–1918.'],
- ['Der Reichskanzler','Vom Kaiser ernannt, führte er die Reichsregierung. Otto von Bismarck war der erste Kanzler und blieb bis 1890 im Amt.'],
- ['Der Bundesrat','Vertretung der Regierungen der Bundesstaaten. Preußen hatte besonders großen Einfluss.'],
- ['Der Reichstag','Gewähltes Parlament mit allgemeinem Männerwahlrecht. Frauen waren auf Reichsebene vom Wahlrecht ausgeschlossen.'],
-]
-export default function HistoryPage(){return <article className="page-content"><header className="page-hero"><p className="section-kicker">HISTORISCHER ÜBERBLICK · 1871–1918</p><h1>Geschichte des Kaiserreichs</h1><p className="lead">In weniger als fünf Jahrzehnten wurde aus dem 1871 gegründeten Nationalstaat eine europäische Großmacht. Niederlage und Revolution beendeten 1918 die Monarchie.</p><Link className="back-link" href="/">← Zurück zur Übersicht</Link></header><section className="content-section" id="gruendung"><p className="section-kicker">DIE REICHSGRÜNDUNG</p><h2>Ein deutscher Bundesstaat</h2><p>Am 18. Januar 1871 wurde Wilhelm I. im Spiegelsaal von Versailles zum Kaiser proklamiert. Die Gründung war das Ergebnis der Einigungskriege und der politischen Initiative Preußens. Bayern, Württemberg, Baden und Hessen schlossen sich dem von Preußen dominierten Bund an.</p><p>Das Reich bestand aus 25 Bundesstaaten. Sie behielten eigene Herrscher und Regierungen; Zuständigkeiten wie Außenpolitik, Militär und Währung wurden auf Reichsebene gebündelt. Das 1871 annektierte Elsass-Lothringen erhielt als Reichsland eine besondere Stellung.</p></section><section className="content-section" id="verfassung"><p className="section-kicker">POLITIK &amp; VERFASSUNG</p><h2>Wie war das Reich organisiert?</h2><div className="article-grid">{institutions.map(([name,text],i)=><article className="info-card" key={name}><span className="article-number">0{i+1}</span><h3>{name}</h3><p>{text}</p></article>)}</div><p className="source-note">Das politische System verband monarchische Herrschaft und föderale Institutionen mit einem gewählten Reichstag. Regierung und Parlament waren nicht in heutiger parlamentarischer Weise miteinander verbunden.</p></section><section className="content-section" id="zeitleiste"><p className="section-kicker">SIEBEN WENDEPUNKTE</p><h2>Zeitleiste 1871–1918</h2><div className="timeline-phase-list"><div className="timeline-list">{dates.map(([date,detail])=><article className="timeline-entry" key={date}><time>{date}</time><p>{detail}</p></article>)}</div></div></section><section className="content-section" id="gesellschaft"><p className="section-kicker">INDUSTRIE, STADT &amp; ALLTAG</p><h2>Eine Gesellschaft im Wandel</h2><div className="everyday-panel"><p>Die Industrialisierung veränderte Arbeit und Alltag. Städte wuchsen, Eisenbahn und Schwerindustrie wurden ausgebaut, und neue politische Bewegungen organisierten sich. Zugleich prägten soziale Ungleichheit, konfessionelle Konflikte und staatliche Kontrolle das Leben vieler Menschen.</p><p>Das Kaiserreich war keine einheitliche Gesellschaft: Lebensbedingungen und politische Erfahrungen unterschieden sich je nach Region, Beruf, Geschlecht und sozialer Lage. Frauen blieben von politischen Reichstagswahlen ausgeschlossen.</p></div></section><section className="content-section" id="ende"><p className="section-kicker">KRIEG, REVOLUTION &amp; ENDE</p><h2>1918: Das Ende der Monarchie</h2><p>Der Erste Weltkrieg brachte Millionen Tote, Versorgungskrisen und eine tiefe politische Erschütterung. Im Herbst 1918 kam es zu Protesten und revolutionären Umbrüchen. Wilhelm II. ging ins Exil; die Monarchie wurde durch eine Republik abgelöst. Der Waffenstillstand vom 11. November beendete die Kämpfe an der Westfront.</p><div className="article-callout"><strong>Einordnung</strong><p>Das Ende des Kaiserreichs hatte mehrere Ursachen. Militärische Niederlage, soziale Not und politische Konflikte wirkten zusammen; die Entwicklung lässt sich nicht auf ein einzelnes Ereignis reduzieren.</p></div></section><section className="content-section"><p className="section-kicker">WEITERENTDECKEN</p><h2>Personen und Territorium</h2><div className="quick-links-row"><Link href="/familie">Stammbäume: Wilhelm II. und Bismarck →</Link><Link href="/entdeckerkarte">Karte des Kaiserreichs →</Link><Link href="/quellen">Quellen und Literatur →</Link></div></section></article>}
+export const metadata: Metadata = {
+  title: 'Geschichte des Kaiserreichs · 1871–1918',
+  description: 'Ein kompakter Überblick zur Gründung, Verfassung, Gesellschaft und zum Ende des Deutschen Kaiserreichs.',
+}
+
+export default async function HistoryPage() {
+  await connection()
+  const content = await getHistoryContent()
+
+  return (
+    <article className="page-content">
+      <header className="page-hero">
+        <p className="section-kicker">HISTORISCHER ÜBERBLICK · 1871–1918</p>
+        <h1>Geschichte des Kaiserreichs</h1>
+        <p className="lead">{content.lead}</p>
+        <Link className="back-link" href="/">← Zurück zur Übersicht</Link>
+      </header>
+      <section className="content-section" id="gruendung">
+        <p className="section-kicker">DIE REICHSGRÜNDUNG</p>
+        <h2>Ein deutscher Bundesstaat</h2>
+        {content.founding.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+      </section>
+      <section className="content-section" id="verfassung">
+        <p className="section-kicker">POLITIK &amp; VERFASSUNG</p>
+        <h2>Wie war das Reich organisiert?</h2>
+        <div className="article-grid">
+          {content.institutions.map(({ name, detail }, index) => (
+            <article className="info-card" key={name}>
+              <span className="article-number">0{index + 1}</span>
+              <h3>{name}</h3>
+              <p>{detail}</p>
+            </article>
+          ))}
+        </div>
+        <p className="source-note">{content.constitutionalNote}</p>
+      </section>
+      <section className="content-section" id="zeitleiste">
+        <p className="section-kicker">SIEBEN WENDEPUNKTE</p>
+        <h2>Zeitleiste 1871–1918</h2>
+        <div className="timeline-phase-list">
+          <div className="timeline-list">
+            {content.timeline.map(({ date, detail }) => (
+              <article className="timeline-entry" key={date}>
+                <time>{date}</time>
+                <p>{detail}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="content-section" id="gesellschaft">
+        <p className="section-kicker">INDUSTRIE, STADT &amp; ALLTAG</p>
+        <h2>Eine Gesellschaft im Wandel</h2>
+        <div className="everyday-panel">
+          {content.society.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+      </section>
+      <section className="content-section" id="ende">
+        <p className="section-kicker">KRIEG, REVOLUTION &amp; ENDE</p>
+        <h2>1918: Das Ende der Monarchie</h2>
+        {content.ending.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        <div className="article-callout">
+          <strong>Einordnung</strong>
+          <p>{content.conclusion}</p>
+        </div>
+      </section>
+      <section className="content-section" aria-labelledby="history-sources-heading">
+        <p className="section-kicker">BELEGE &amp; EINORDNUNG</p>
+        <h2 id="history-sources-heading">Quellen zur Zeitleiste</h2>
+        {content.citations.length > 0 ? (
+          <ul className="history-citation-list">
+            {content.citations.map((citation) => (
+              <li key={citation.sourceId}>
+                {citation.url ? (
+                  <a href={citation.url} target="_blank" rel="noopener noreferrer">{citation.title}</a>
+                ) : (
+                  <span>{citation.title}</span>
+                )}
+                {citation.locator && <p>{citation.locator}</p>}
+                {citation.attributionNote && <p>{citation.attributionNote}</p>}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="source-register-note">Für die Aussagen auf dieser Seite sind noch keine geprüften Einzelnachweise hinterlegt. Die verlinkten Recherche-Portale sind Einstiegspunkte, keine Einzelbelege. <Link className="text-link" href="/quellen">Zum Quellenregister</Link></p>
+        )}
+      </section>
+      <section className="content-section">
+        <p className="section-kicker">WEITERENTDECKEN</p>
+        <h2>Personen und Territorium</h2>
+        <div className="quick-links-row">
+          <Link href="/familie">Stammbäume: Wilhelm II. und Bismarck →</Link>
+          <Link href="/entdeckerkarte">Karte des Kaiserreichs →</Link>
+          <Link href="/quellen">Quellen und Literatur →</Link>
+        </div>
+      </section>
+    </article>
+  )
+}

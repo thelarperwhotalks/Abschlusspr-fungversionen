@@ -25,7 +25,7 @@ export function EmpireHome() {
         <div className="hero-actions"><Link className="button button-fill" href="/geschichte">Geschichte entdecken <ArrowRight size={16}/></Link><a className="button button-ghost" href="#zeitleiste">Zur Zeitleiste <ArrowDown size={16}/></a></div>
         <div className="hero-facts"><div><strong>1871–1918</strong><span>Deutsches Kaiserreich</span></div><div><strong>25</strong><span>Bundesstaaten</span></div><div><strong>3</strong><span>Kaiser</span></div></div>
       </div>
-      <div className="hero-caption"><span>Berlin um 1900</span><span>Eine Epoche im Bild</span></div>
+      <div className="hero-caption"><span>Künstlerische Rekonstruktion</span><span>Keine historische Fotografie</span></div>
       <a className="scroll-cue" href="#zeitleiste" aria-label="Zur Zeitleiste"><ArrowDown size={18}/></a>
     </section>
     <section className="empire-timeline content-section" id="zeitleiste">
