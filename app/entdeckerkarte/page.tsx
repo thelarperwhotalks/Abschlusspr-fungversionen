@@ -12,11 +12,11 @@ export default function MapPage() {
     <header className="page-hero atlas-page-hero">
       <p className="section-kicker">KARTENATLAS · GRENZEN IM WANDEL</p>
       <h1>Deutschland und Europa im Vergleich</h1>
-      <p className="lead">Wechsle zwischen dem heutigen Europa, der Karte von 1914 und dem direkten Vergleich der Reichsgrenzen mit dem heutigen Deutschland.</p>
+      <p className="lead">Vergleiche Europa mit den heutigen Grenzen (2026) und der politischen Landkarte von 1914. Die Deutschland-Ansicht zeigt zusätzlich die Reichsgrenzen im direkten Vergleich mit heute.</p>
       <Link className="back-link" href="/">← Zurück zur Übersicht</Link>
     </header>
     <section className="content-section empire-map-section" id="territorium">
-      <div className="atlas-intro"><div><p className="section-kicker">DREI ANSICHTEN · ZWEI ZEITEN</p><h2>Grenzen erzählen Geschichte</h2></div><p>Die Karten zeigen, wie stark sich politische Zugehörigkeiten und Staatsgrenzen in Europa verändert haben.</p></div>
+      <div className="atlas-intro"><div><p className="section-kicker">DREI KARTENANSICHTEN · ZWEI ZEITSTÄNDE</p><h2>Grenzen erzählen Geschichte</h2></div><p>Die Karten zeigen, wie stark sich politische Zugehörigkeiten und Staatsgrenzen in Europa verändert haben.</p></div>
       <EmpireMap/>
       <div className="atlas-context">
         <article><span>01 · REICHSGEBIET</span><h3>Ein größerer Staat als heute</h3><p>Das Deutsche Kaiserreich umfasste 1914 unter anderem Elsass-Lothringen, Westpreußen, Posen und Ostpreußen. Die Karte überlagert die damalige Reichsfläche mit den heutigen Grenzen.</p></article>
